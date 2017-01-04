@@ -24,7 +24,7 @@ public class Main {
             File inputFile = new File(Constant.INPUT_FILE_PATH);
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), "UTF-8"));
             String inputText = reader.readLine();
-            inputText = inputText.replace(",", " ,").replace(".", " .").replace("?", " ?").replace("...", " ...").replace("!", " !").replace(")", " )").replace("(", " (");
+            inputText = inputText.replace(",", " ,").replace(".", " .").replace("?", " ?").replace("...", " ...").replace("!", " !").replace(")", " )").replace("(", " (").replace(":", " :");
             String[] words = inputText.split(" ");
             ArrayList<String>wordsList = new ArrayList<>(Arrays.asList(words));
 
@@ -32,6 +32,7 @@ public class Main {
             while (true){
                 if (!Character.isUpperCase(wordsList.get(offset).charAt(0))) {
                     offset++;
+                    if(offset == wordsList.size()-1) break;
                     continue;
                 }
                 while (Character.isUpperCase(wordsList.get(offset + 1).charAt(0))){
@@ -94,50 +95,6 @@ public class Main {
                 combinationSize--;
             }
 
-            boolean fixed = false;
-            while(!fixed){
-                for(int i = 0; i < wordsList.size(); i++){
-                    if(wordsList.get(i).split(" ").length == 1){
-                        boolean isBeforeWord = false;
-                        boolean isAfterWord = false;
-                        if(i > 0){
-                            for(DictionaryNode dictionaryNode : dictionaries){
-                                if(dictionaryNode.getHeadWord().equals(wordsList.get(i-1))){
-                                    for(String afterWord : dictionaryNode.getAfterWords()){
-                                        if(afterWord.equals(wordsList.get(i))){
-                                            isAfterWord = true;
-                                        }
-                                    }
-                                }
-                                if(isAfterWord) break;
-                            }
-                        }
-                        if(i < wordsList.size()-1){
-                            for(DictionaryNode dictionaryNode : dictionaries){
-                                if(dictionaryNode.getHeadWord().equals(wordsList.get(i+1))){
-                                    for(String beforeWord : dictionaryNode.getBeforeWords()){
-                                        if(beforeWord.equals(wordsList.get(i))){
-                                            isBeforeWord = true;
-                                        }
-                                    }
-                                }
-                                if(isBeforeWord) break;
-                            }
-                        }
-
-                        if(isAfterWord){
-                            wordsList.set(i, wordsList.get(i-1) + " " + wordsList.get(i));
-                            wordsList.remove(wordsList.get(i-1));
-                        }
-                        if(isBeforeWord){
-                            wordsList.set(i, wordsList.get(i) + " " + wordsList.get(i+1));
-                            wordsList.remove(wordsList.get(i+1));
-                        }
-                        if(isAfterWord || isBeforeWord) break;
-                    }
-                    if(i == wordsList.size()-1) fixed = true;
-                }
-            }
             wordsList.set(0, wordsList.get(0).substring(0,1).toUpperCase() + wordsList.get(0).substring(1));
 
             for(String word : wordsList){

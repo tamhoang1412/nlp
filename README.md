@@ -1,8 +1,11 @@
-# nlp
+# Nature language processing course's assignment
 =============================
 Description
 -----------------------------
-Nature language processing course's assignment
+* Problem: Vietnamese word segmentation
+* Input: A Vietnamese sentence
+* Output: The segmented sentence
+* Solution approach: Longest Maximum Matching and consecutive words with uppercase first letter.
 
 Language: Java
 
